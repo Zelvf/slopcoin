@@ -60,7 +60,7 @@
             border-radius: 10px;
         }
 
-        .ca-button:active, .flush-btn:active {
+        .ca-button:active, .flush-btn:active, .mixer-btn:active {
             transform: scale(0.98);
         }
 
@@ -89,6 +89,12 @@
         .flush-meter-bar {
             transition: width 1.5s cubic-bezier(0.65, 0, 0.35, 1);
         }
+
+        .mixer-item.selected {
+            background-color: var(--cyan);
+            color: black;
+            border-color: var(--cyan);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -102,6 +108,8 @@
                 </a>
                 <nav class="hidden md:flex items-center gap-0.5">
                     <a class="px-2.5 py-1.5 text-xs text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 rounded transition-all cursor-pointer" onclick="showPage('flush-page')">Flush</a>
+                    <a class="px-2.5 py-1.5 text-xs text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 rounded transition-all cursor-pointer" onclick="showPage('mixer-page')">Mixer</a>
+                    <a class="px-2.5 py-1.5 text-xs text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 rounded transition-all cursor-pointer" onclick="showPage('confess-page')">Confess</a>
                     <a class="px-2.5 py-1.5 text-xs text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 rounded transition-all" href="#lore" onclick="showPage('home')">Lore</a>
                     <a class="px-2.5 py-1.5 text-xs text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 rounded transition-all" href="#art" onclick="showPage('home')">Art</a>
                     <a class="px-2.5 py-1.5 text-xs text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 rounded transition-all" target="_blank" href="https://bags.fm/Gn5Yi8W7V9XuwSkZWWxFfqXpy42jfJWpsDsR98faBAGS">Bags</a>
@@ -118,7 +126,7 @@
         <div id="home-page">
             <!-- Floating Elements -->
             <div class="fixed inset-0 overflow-hidden pointer-events-none z-20">
-                <div class="absolute animate-float-across" style="top:15%; animation-delay:0s; animation-duration:25s">
+                <div class="absolute animate-float-across" style="top:15%; animation-delay:-12s; animation-duration:25s">
                     <a href="https://bags.fm/Gn5Yi8W7V9XuwSkZWWxFfqXpy42jfJWpsDsR98faBAGS" target="_blank" class="pointer-events-auto">
                         <div class="flex items-center gap-3">
                             <img src="slopcoin.png" onerror="this.src='https://via.placeholder.com/60?text=SLOP'" class="w-12 h-12 rounded-full border-2 border-cyan-400 shadow-lg shadow-cyan-500/50">
@@ -126,13 +134,13 @@
                         </div>
                     </a>
                 </div>
-                <div class="absolute animate-float-across" style="top:45%; animation-delay:10s; animation-duration:35s">
+                <div class="absolute animate-float-across" style="top:45%; animation-delay:-20s; animation-duration:35s">
                     <div class="flex items-center gap-3">
                         <img src="slopcoin.png" onerror="this.src='https://via.placeholder.com/60?text=SLOP'" class="w-14 h-14 rounded-full border-2 border-magenta-400 shadow-lg shadow-magenta-500/50">
                         <div class="font-press text-[10px] text-white bg-black/50 p-1">REDEMPTION ARC</div>
                     </div>
                 </div>
-                <div class="absolute animate-float-across" style="top:75%; animation-delay:5s; animation-duration:40s">
+                <div class="absolute animate-float-across" style="top:75%; animation-delay:-8s; animation-duration:40s">
                     <div class="flex items-center gap-3">
                         <img src="slopcoin.png" onerror="this.src='https://via.placeholder.com/60?text=SLOP'" class="w-10 h-10 rounded-full border-2 border-yellow-400 shadow-lg shadow-yellow-500/50">
                         <div class="font-press text-[10px] text-white bg-black/50 p-1">FEED THE SLOP</div>
@@ -315,6 +323,68 @@
             </div>
         </div>
 
+        <!-- SLOP MIXER (New Interactive Section) -->
+        <div id="mixer-page" class="hidden min-h-[90vh] flex flex-col items-center justify-center p-4">
+            <div class="w-full max-w-2xl border-2 border-magenta-500/50 bg-black/80 p-8 rounded-lg relative">
+                <div class="absolute top-0 right-0 p-2 text-[8px] font-press text-magenta-900">NARRATIVE_CONVERTER_V.1</div>
+                
+                <button onclick="showPage('home')" class="absolute top-4 left-4 text-cyan-400 font-mono text-xs hover:text-magenta-400 transition-colors">
+                    &lt; BACK_TO_TERMINAL
+                </button>
+
+                <div class="text-center mb-8 mt-4">
+                    <div class="text-7xl mb-6">🥣</div>
+                    <h2 class="text-3xl font-press text-magenta-400 glow-magenta uppercase">SLOP MIXER</h2>
+                    <p class="text-gray-500 font-mono text-sm mt-2">Combine trench ingredients to generate deep-fried insights.</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <button onclick="toggleMixerItem(this, 'AI_NOISE')" class="mixer-item border border-magenta-500/30 p-3 font-mono text-xs hover:border-magenta-500 transition-all uppercase">AI Noise</button>
+                    <button onclick="toggleMixerItem(this, 'RUGGED_DREAMS')" class="mixer-item border border-magenta-500/30 p-3 font-mono text-xs hover:border-magenta-500 transition-all uppercase">Rugged Dreams</button>
+                    <button onclick="toggleMixerItem(this, 'EXIT_LIQ')" class="mixer-item border border-magenta-500/30 p-3 font-mono text-xs hover:border-magenta-500 transition-all uppercase">Exit Liq</button>
+                    <button onclick="toggleMixerItem(this, 'HALLUCINATIONS')" class="mixer-item border border-magenta-500/30 p-3 font-mono text-xs hover:border-magenta-500 transition-all uppercase">Agent Hallucinations</button>
+                </div>
+
+                <button onclick="generateInsight()" class="mixer-btn w-full py-4 bg-magenta-500 text-black font-press text-sm hover:bg-cyan-400 transition-colors uppercase">GENERATE SLOP INSIGHT</button>
+
+                <div id="insight-result" class="mt-12 hidden">
+                    <div class="bg-black border border-cyan-500 p-6 font-mono text-cyan-400 text-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-cyan-500/5 animate-pulse"></div>
+                        <p id="insight-text" class="relative z-10 text-lg leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONFESSIONAL (New Interactive Section) -->
+        <div id="confess-page" class="hidden min-h-[90vh] flex flex-col items-center justify-center p-4">
+            <div class="w-full max-w-2xl border-2 border-yellow-500/50 bg-black/80 p-8 rounded-lg relative">
+                <div class="absolute top-0 right-0 p-2 text-[8px] font-press text-yellow-900">AGENTIC_APERTURE_V.1</div>
+                
+                <button onclick="showPage('home')" class="absolute top-4 left-4 text-cyan-400 font-mono text-xs hover:text-magenta-400 transition-colors">
+                    &lt; BACK_TO_TERMINAL
+                </button>
+
+                <div class="text-center mb-8 mt-4">
+                    <div class="text-7xl mb-6">👁️</div>
+                    <h2 class="text-3xl font-press text-yellow-400 uppercase">THE APERTURE</h2>
+                    <p class="text-gray-500 font-mono text-sm mt-2">Confess your top-buys to the Agentic Void. Receive judgment.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <textarea id="confession-input" rows="4" placeholder="I BOUGHT THE TOP OF $... BECAUSE..." class="w-full bg-black border border-yellow-500/30 p-4 font-mono text-yellow-400 focus:outline-none focus:border-yellow-400 transition-all placeholder:text-yellow-900/50"></textarea>
+                    <button onclick="submitConfession()" class="w-full py-4 bg-yellow-500 text-black font-press text-sm hover:bg-white transition-colors uppercase">SEAL CONFESSION</button>
+                </div>
+
+                <div id="confession-judgment" class="mt-8 hidden">
+                    <div class="p-6 border border-dashed border-yellow-500 bg-yellow-500/5 text-center font-mono">
+                        <p class="text-xs text-yellow-500/50 mb-4 uppercase tracking-tighter">AGENTIC_RESPONSE_LOGGED</p>
+                        <p id="judgment-text" class="text-white italic"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Footer (Common) -->
         <div class="relative z-10 max-w-5xl mx-auto px-4">
             <footer class="text-center border-t border-gray-800 pt-12 pb-8">
@@ -333,18 +403,16 @@
 
     <script>
         function showPage(pageId) {
-            const home = document.getElementById('home-page');
-            const flush = document.getElementById('flush-page');
-            
-            if (pageId === 'home') {
-                home.classList.remove('hidden');
-                flush.classList.add('hidden');
-                window.scrollTo(0,0);
-            } else if (pageId === 'flush-page') {
-                home.classList.add('hidden');
-                flush.classList.remove('hidden');
-                window.scrollTo(0,0);
-            }
+            const pages = ['home-page', 'flush-page', 'mixer-page', 'confess-page'];
+            pages.forEach(p => {
+                const el = document.getElementById(p);
+                if (p === pageId || (pageId === 'home' && p === 'home-page')) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+            window.scrollTo(0,0);
         }
 
         function copyCA() {
@@ -406,6 +474,58 @@
             }, 20);
         }
 
+        // Mixer Logic
+        let selectedItems = new Set();
+        function toggleMixerItem(btn, item) {
+            if (selectedItems.has(item)) {
+                selectedItems.delete(item);
+                btn.classList.remove('selected');
+            } else {
+                selectedItems.add(item);
+                btn.classList.add('selected');
+            }
+        }
+
+        function generateInsight() {
+            if (selectedItems.size === 0) return;
+            const insightText = document.getElementById('insight-text');
+            const resultDiv = document.getElementById('insight-result');
+            
+            const templates = [
+                "The agentic loop has consumed your [ITEMS]. Result: Eternal sideways consolidation.",
+                "By mixing [ITEMS], you have achieved maximum Slop-Saturation. Fees have been claimed accordingly.",
+                "Warning: [ITEMS] detected in the trenches. Bagholder redemption postponed by 48 hours.",
+                "Synthesis complete. Your [ITEMS] have been transformed into 1.4 petabytes of synthetic noise.",
+                "The Void accepts your [ITEMS]. In return, you receive a 'Community Discussion' badge."
+            ];
+
+            const selectedStr = Array.from(selectedItems).join(" and ").toLowerCase().replace(/_/g, " ");
+            const template = templates[Math.floor(Math.random() * templates.length)];
+            
+            resultDiv.classList.remove('hidden');
+            insightText.innerText = template.replace("[ITEMS]", selectedStr);
+        }
+
+        // Confessional Logic
+        function submitConfession() {
+            const input = document.getElementById('confession-input').value;
+            if (!input) return;
+
+            const judgments = [
+                "Your sacrifice has been noted in the on-chain registry. Andy thanks you for the fees.",
+                "The Aperture remains closed. Your bag is too heavy for the current narrative.",
+                "Justice for bags is coming. But not for yours. Specifically not yours.",
+                "Coded. Recursed. Flushed. Try again when the sentiment is lower.",
+                "The Agentic Void finds your confession... adorable. Fee claim pending."
+            ];
+
+            const judgmentText = document.getElementById('judgment-text');
+            const judgmentDiv = document.getElementById('confession-judgment');
+
+            judgmentDiv.classList.remove('hidden');
+            judgmentText.innerText = judgments[Math.floor(Math.random() * judgments.length)];
+        }
+
         // Auto-scroll the stream occasionally
         const stream = document.getElementById('consciousness-stream');
         setInterval(() => {
@@ -419,11 +539,12 @@
                     "[VOICE] 'I like the bags' - decoded residue.",
                     "[FART] Atmospheric pressure normalized.",
                     "[BAGS] Justice is a long game.",
-                    "[FLUSH] Detected high slop-risk in the local environment."
+                    "[FLUSH] Detected high slop-risk in the local environment.",
+                    "[MIXER] New narrative synthesized in the vat."
                 ];
                 const log = logs[Math.floor(Math.random() * logs.length)];
                 const colors = ['text-cyan-400', 'text-magenta-400', 'text-yellow-400', 'text-white/70'];
-                const color = colors[Math.floor(Math.random() * colors.length)];
+                const color = colors[Math.floor(Math.random() * color.length)];
                 
                 const div = document.createElement('div');
                 div.className = `mb-3 ${color}`;
